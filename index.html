@@ -126,7 +126,7 @@
     <section id="contact" class="contact">
         <h2>Contact Me</h2>
         <div class="contact-container">
-            <form action="https://formsubmit.co/contact.ys09@gmail.com" method="POST" class="contact-form">
+            <form id="contact-form" class="contact-form">
                 <div class="form-group">
                     <input type="text" name="name" required>
                     <label>Your Name</label>
@@ -141,8 +141,33 @@
                 </div>
                 <button type="submit" class="btn primary">Send Message</button>
             </form>
+            <p id="form-status"></p>
         </div>
     </section>
+    
+    <script>
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent page reload
+    
+            let formData = new FormData(this);
+    
+            fetch("https://formsubmit.co/ajax/contact.ys09@gmail.com", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("form-status").textContent = "Message sent successfully!";
+                document.getElementById("form-status").style.color = "green";
+                document.getElementById("contact-form").reset(); // Reset form after submission
+            })
+            .catch(error => {
+                document.getElementById("form-status").textContent = "Error sending message!";
+                document.getElementById("form-status").style.color = "red";
+            });
+        });
+    </script>
+
 
     <!-- Footer -->
     <footer>
